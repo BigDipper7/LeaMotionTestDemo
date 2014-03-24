@@ -24,15 +24,15 @@ bool	CPianoMelody::OccurGesture(const KeyTapGesture &keyTap)
 	Vector v= pt.tipVelocity();
 	Vector pos = pt.tipPosition();
 	int xPos = pos.x;
-	if(xPos <= -200)
+	if(xPos <= -210)
 	{
-		xPos = -200;
+		xPos = -210;
 	}
-	else if(xPos >= 200)
+	else if(xPos >= 210)
 	{
-		xPos = 200;
+		xPos = 210;
 	}
-	int musicNum = (pos.x + 200)/50;
+	int musicNum = (pos.x + 210)/30;
 
 	SetKeyPress(musicNum);
 	

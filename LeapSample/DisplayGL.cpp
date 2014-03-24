@@ -160,76 +160,87 @@ void DrawGLScene(void)
 	LeaveCriticalSection(&g_csStick);
 
 	glColor3f(1,1,1);
-	// 从左到右绘制七个白色按键
+	// 从左到右绘制十三个白色按键
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glPushMatrix();
-	glTranslatef(-0.8f,-0.5f,0.0f);
+	glTranslatef(-1.4f,-0.5f,0.0f);//同时更改 初始化坐标 和 后面按键数量
 
-	// 第一个白色按键   
-	glTranslatef(0.2f, 0.0f, 0.0f);   
-	glPushMatrix();   
-	if (0 == g_PressWhichKey)
-		glTranslatef(0.0f, -0.04f, 0.0f);   
-	glDrawCube(0.2f, 0.1f, 0.8f);   
-	glPopMatrix();   
-
-	// 第二个白色按键   
-	glTranslatef(0.2f, 0.0f, 0.0f);   
-	glPushMatrix();   
-	if (1 == g_PressWhichKey)
+	for (int i = 0; i < 13; i++)
 	{
-	 	glTranslatef(0.0f, -0.04f, 0.0f);
+		// 第i个白色按键   
+		glTranslatef(0.2f, 0.0f, 0.0f);   
+		glPushMatrix();   
+		if (i == g_PressWhichKey)
+			glTranslatef(0.0f, -0.04f, 0.0f);   
+		glDrawCube(0.2f, 0.1f, 0.8f);   
+		glPopMatrix();
 	}
-	glDrawCube(0.2f, 0.1f, 0.8f);   
-	glPopMatrix();   
+	
+	//// 第一个白色按键   
+	//glTranslatef(0.2f, 0.0f, 0.0f);   
+	//glPushMatrix();   
+	//if (0 == g_PressWhichKey)
+	//	glTranslatef(0.0f, -0.04f, 0.0f);   
+	//glDrawCube(0.2f, 0.1f, 0.8f);   
+	//glPopMatrix();   
 
-	// 第三个白色按键   
-	glTranslatef(0.2f, 0.0f, 0.0f);   
-	glPushMatrix();   
-	if (2 == g_PressWhichKey)
-	 		glTranslatef(0.0f, -0.04f, 0.0f);   
-	glDrawCube(0.2f, 0.1f, 0.8f);   
-	glPopMatrix();   
+	//// 第二个白色按键   
+	//glTranslatef(0.2f, 0.0f, 0.0f);   
+	//glPushMatrix();   
+	//if (1 == g_PressWhichKey)
+	//{
+	// 	glTranslatef(0.0f, -0.04f, 0.0f);
+	//}
+	//glDrawCube(0.2f, 0.1f, 0.8f);   
+	//glPopMatrix();   
 
-	// 第四个白色按键   
-	glTranslatef(0.2f, 0.0f, 0.0f);   
-	glPushMatrix();   
-	if (3 == g_PressWhichKey)
-	 		glTranslatef(0.0f, -0.04f, 0.0f);   
-	glDrawCube(0.2f, 0.1f, 0.8f);   
-	glPopMatrix();   
+	//// 第三个白色按键   
+	//glTranslatef(0.2f, 0.0f, 0.0f);   
+	//glPushMatrix();   
+	//if (2 == g_PressWhichKey)
+	// 		glTranslatef(0.0f, -0.04f, 0.0f);   
+	//glDrawCube(0.2f, 0.1f, 0.8f);   
+	//glPopMatrix();   
 
-	// 第五个白色按键   
-	glTranslatef(0.2f, 0.0f, 0.0f);   
-	glPushMatrix();   
-	if (4 == g_PressWhichKey)
-	 		glTranslatef(0.0f, -0.04f, 0.0f);   
-	glDrawCube(0.2f, 0.1f, 0.8f);   
-	glPopMatrix();   
+	//// 第四个白色按键   
+	//glTranslatef(0.2f, 0.0f, 0.0f);   
+	//glPushMatrix();   
+	//if (3 == g_PressWhichKey)
+	// 		glTranslatef(0.0f, -0.04f, 0.0f);   
+	//glDrawCube(0.2f, 0.1f, 0.8f);   
+	//glPopMatrix();   
 
-	// 第六个白色按键   
-	glTranslatef(0.2f, 0.0f, 0.0f);   
-	glPushMatrix();   
-	if (5 == g_PressWhichKey)
-	 		glTranslatef(0.0f, -0.04f, 0.0f);   
-	glDrawCube(0.2f, 0.1f, 0.8f);   
-	glPopMatrix();   
+	//// 第五个白色按键   
+	//glTranslatef(0.2f, 0.0f, 0.0f);   
+	//glPushMatrix();   
+	//if (4 == g_PressWhichKey)
+	// 		glTranslatef(0.0f, -0.04f, 0.0f);   
+	//glDrawCube(0.2f, 0.1f, 0.8f);   
+	//glPopMatrix();   
 
-	// 第七个白色按键   
-	glTranslatef(0.2f, 0.0f, 0.0f);   
-	glPushMatrix();   
-	if (6 == g_PressWhichKey)
-	 		glTranslatef(0.0f, -0.04f, 0.0f);   
-	glDrawCube(0.2f, 0.1f, 0.8f);   
-	glPopMatrix();   
+	//// 第六个白色按键   
+	//glTranslatef(0.2f, 0.0f, 0.0f);   
+	//glPushMatrix();   
+	//if (5 == g_PressWhichKey)
+	// 		glTranslatef(0.0f, -0.04f, 0.0f);   
+	//glDrawCube(0.2f, 0.1f, 0.8f);   
+	//glPopMatrix();   
 
-	glPopMatrix();                      // 白色按键绘制完毕   
+	//// 第七个白色按键   
+	//glTranslatef(0.2f, 0.0f, 0.0f);   
+	//glPushMatrix();   
+	//if (6 == g_PressWhichKey)
+	// 		glTranslatef(0.0f, -0.04f, 0.0f);   
+	//glDrawCube(0.2f, 0.1f, 0.8f);   
+	//glPopMatrix();   
+
+	glPopMatrix();                      // 白色按键绘制完毕 恢复到最终的坐标  同时更改黑键的数量及坐标
 
 	// 循环绘制黑色按键   
 	glBindTexture(GL_TEXTURE_2D, texture[1]);   
 	glPushMatrix();   
-	glTranslatef(-0.7f, -0.46f, -0.2f);   
-	for (int loop=0; loop<6; loop++)   
+	glTranslatef(-1.3f, -0.46f, -0.2f);   
+	for (int loop=0; loop<12; loop++)   
 	{   
 		glTranslatef(0.2f, 0.0f, 0.0f);   
 		glDrawCube(0.1f, 0.1f, 0.4f);   
@@ -238,28 +249,28 @@ void DrawGLScene(void)
 
 	// 绘制整个钢琴（除按键外）   
 	glBindTexture(GL_TEXTURE_2D, texture[2]);   
-	glPushMatrix();
-	glTranslatef(0.0f, 0.0f, -0.8f);
+	/*glPushMatrix();
+	glTranslatef(0.0f, 0.0f, -0.8f);//绘制的是顶部正方体
 	glDrawCube(1.8f, 0.1f, 1.0f);
-	glPopMatrix();
+	glPopMatrix();*/
 
-	glPushMatrix();   
-	glTranslatef(0.0f, 0.0f, -0.8f);   
+	/*glPushMatrix();   
+	glTranslatef(0.0f, 0.0f, -0.8f);//顶部下面正方体
 	glTranslatef(0.0f, -0.65f, 0.0f);   
 	glDrawCube(1.6f, 1.2f, 0.8f);   
-	glPopMatrix();   
+	glPopMatrix(); */  
 
 	glPushMatrix();   
-	glTranslatef(-0.75f, -0.8f, 0.0f);   
+	glTranslatef(-1.35f, -0.8f, 0.0f);   
 	glDrawCube(0.1f, 0.9f, 0.8f);   
-	glTranslatef(1.5f, 0.0f, 0.0f);   
+	glTranslatef(2.7f, 0.0f, 0.0f);   
 	glDrawCube(0.1f,0.9f, 0.8f);   
 	glPopMatrix();   
 
-	glPushMatrix();   
+	/*glPushMatrix();   
 	glTranslatef(0.0f, -1.3f, -0.4f);   
 	glDrawCube(1.8f, 0.1f, 1.7f);   
-	glPopMatrix();   
+	glPopMatrix();*/   
 
 	glutSwapBuffers(); 
 }
@@ -334,6 +345,30 @@ void KeyBoardFunc(unsigned char key, int x, int y)
 	else if(('J' == key)||('j' == key))
 	{
 		g_PressWhichKey = 6;
+	}
+	else if (('K' == key) || ('k' == key))
+	{
+		g_PressWhichKey = 7;
+	}
+	else if (('L' == key) || ('l' == key))
+	{
+		g_PressWhichKey = 8;
+	}
+	else if (('Z' == key) || ('z' == key))
+	{
+		g_PressWhichKey = 9;
+	}
+	else if (('X' == key) || ('x' == key))
+	{
+		g_PressWhichKey = 10;
+	}
+	else if (('C' == key) || ('c' == key))
+	{
+		g_PressWhichKey = 11;
+	}
+	else if (('V' == key) || ('v' == key))
+	{
+		g_PressWhichKey = 12;
 	}
 	EnterCriticalSection(&g_csPiano);
 	g_pianoMelody->Play(g_PressWhichKey);

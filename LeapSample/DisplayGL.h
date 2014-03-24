@@ -10,7 +10,7 @@
 #include "GL/glut.h"
 #include "CPianoMelody.h"
 #define MAX_TEXTURE  3   // 定义最大的纹理数目
-#define MAX_KEY_NUM 7
+#define MAX_KEY_NUM 13
 using namespace std;
 //start是手掌中心，end是指尖
 struct SStick

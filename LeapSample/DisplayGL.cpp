@@ -104,24 +104,22 @@ void glDrawCube(GLfloat width, GLfloat height, GLfloat deep)
 
 void DrawGLScene(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// 清除场景和深度缓存   clear cache 
-	glLoadIdentity();                                   // 重置当前矩阵   
-	// 在此处添加代码进行绘制:
-	glTranslatef(0.0f, 0.5f,-2.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//  clear the cache 
+	glLoadIdentity();                                   // reset current matrix
+	glTranslatef(0.0f, 0.5f,-2.0f);//set the beginning coordinates system
 	glRotatef(30, 1.0f, 0.0f, 0.0f);
 	//glRotatef(-20, 0.0f, 1.0f, 0.0f);
-	//先把n个手指画出来 g_StickVector
+	//firstly draw the n fingers  g_StickVector
 	SStick *sTemp;
 	double factor = 200.0;
 	
 	GLUquadricObj *qobj = gluNewQuadric();
 	EnterCriticalSection(&g_csStick);
-	for(int i=0;i<g_StickVector.size();++i)
+	for(int i=0;i<g_StickVector.size();++i)//drawing fingers
 	{
 		glColor3f(0,1,0);
 		sTemp = &g_StickVector[i];
 
-		//一些坐标的调整（下个版本将使用1:1的比例来绘制，这个OpenGL程序是别人的，我并未进行太多修改）
 		sTemp->start_x /= factor*1.2;
 		sTemp->start_y /= factor*1.5;
 		sTemp->start_z /= factor;
@@ -138,42 +136,42 @@ void DrawGLScene(void)
 		sTemp->start_y -= 0.7;
 		sTemp->end_y -= 0.7;
 
-		glPushMatrix();////////////////////////////////
-		//初始化
+		glPushMatrix();//record the current statement
+		//initialize
 		glLineWidth(3);
 		glPointSize(10);
 
-		//下面是画线，可以选择打开看看效果
+		//draw the lines between points
  		glBegin(GL_LINES);
  		glVertex3f(sTemp->start_x,sTemp->start_y,sTemp->start_z);
  		glVertex3f(sTemp->end_x,sTemp->end_y,sTemp->end_z);
  		glEnd();
 
-		glPopMatrix();//////////////////////////
+		glPopMatrix();//return to the statement
 
 		glColor3f(1,1,1);
-		glPushMatrix();
+		glPushMatrix();//record the current statement
 		glTranslatef(sTemp->end_x,sTemp->end_y,sTemp->end_z);
-		gluSphere(qobj,0.03,100,100);
-		glPopMatrix();
+		gluSphere(qobj,0.03,100,100);//draw a sphere to represent the finger
+		glPopMatrix();//return to the statement
 	}
 	LeaveCriticalSection(&g_csStick);
 
 	glColor3f(1,1,1);
-	// 从左到右绘制十三个白色按键
+	// now drawing the piano key; num: 13
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glPushMatrix();
-	glTranslatef(-1.4f,-0.5f,0.0f);//同时更改 初始化坐标 和 后面按键数量
+	glTranslatef(-1.4f,-0.5f,0.0f);//change the  number  and  the beginning coordinate, to make it in the center of screen
 
-	for (int i = 0; i < 13; i++)
+	for (int i = 0; i < 13; i++)// use FOR circle to drawing 13 piano keys
 	{
-		// 第i个白色按键   
-		glTranslatef(0.2f, 0.0f, 0.0f);   
-		glPushMatrix();   
-		if (i == g_PressWhichKey)
-			glTranslatef(0.0f, -0.04f, 0.0f);   
-		glDrawCube(0.2f, 0.1f, 0.8f);   
-		glPopMatrix();
+		// the i th piano key; color="white"   
+		glTranslatef(0.2f, 0.0f, 0.0f);   // make the beginning coordinate system going right; distance =" 0.2f "
+		glPushMatrix();   //record temperary current statement,
+		if (i == g_PressWhichKey)//set current onTapListener ,bind it on the i th ke
+			glTranslatef(0.0f, -0.04f, 0.0f);   //if true , set the key coordinate to make it go down ; distance ="0.04f"
+		glDrawCube(0.2f, 0.1f, 0.8f);   // draw the cube 
+		glPopMatrix();//return back to the previous statement 
 	}
 	
 	//// 第一个白色按键   
@@ -234,20 +232,20 @@ void DrawGLScene(void)
 	//glDrawCube(0.2f, 0.1f, 0.8f);   
 	//glPopMatrix();   
 
-	glPopMatrix();                      // 白色按键绘制完毕 恢复到最终的坐标  同时更改黑键的数量及坐标
+	glPopMatrix(); //drawing white keys succeed , return to the statement before drawing
 
-	// 循环绘制黑色按键   
-	glBindTexture(GL_TEXTURE_2D, texture[1]);   
-	glPushMatrix();   
+	// using FOR circle to draw black key
+	glBindTexture(GL_TEXTURE_2D, texture[1]);   //change the bind texture
+	glPushMatrix();   //record the beginning coordinate statement
 	glTranslatef(-1.3f, -0.46f, -0.2f);   
 	for (int loop=0; loop<12; loop++)   
 	{   
-		glTranslatef(0.2f, 0.0f, 0.0f);   
-		glDrawCube(0.1f, 0.1f, 0.4f);   
+		glTranslatef(0.2f, 0.0f, 0.0f);   //make key going right; distance="0.2f"
+		glDrawCube(0.1f, 0.1f, 0.4f);   //drawing the black cube
 	}   
-	glPopMatrix();   
+	glPopMatrix();   //return to the current coordinate
 
-	// 绘制整个钢琴（除按键外）   
+	// drawing the frame of piano
 	glBindTexture(GL_TEXTURE_2D, texture[2]);   
 	/*glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -0.8f);//绘制的是顶部正方体
@@ -260,7 +258,7 @@ void DrawGLScene(void)
 	glDrawCube(1.6f, 1.2f, 0.8f);   
 	glPopMatrix(); */  
 
-	glPushMatrix();   
+	glPushMatrix();   //drawing the two side of the piano
 	glTranslatef(-1.35f, -0.8f, 0.0f);   
 	glDrawCube(0.1f, 0.9f, 0.8f);   
 	glTranslatef(2.7f, 0.0f, 0.0f);   
@@ -276,12 +274,12 @@ void DrawGLScene(void)
 }
 void ReSizeFunc(int width,int height)
 {
-	glViewport(0, 0, (GLsizei)(width), (GLsizei)(height));              // 重置当前视口大小   
-	glMatrixMode(GL_PROJECTION);                                        // 切换到投影矩阵模式   
-	glLoadIdentity();                                                   // 重置投影矩阵   
-	gluPerspective(45, (float)width/(float)height, 0.1, 1000);           // 设置透视投影   
-	glMatrixMode(GL_MODELVIEW);                                         // 切换到模型视图矩阵   
-	glLoadIdentity();                                                   // 重置模型视图矩阵   
+	glViewport(0, 0, (GLsizei)(width), (GLsizei)(height));              // reset current window size
+	glMatrixMode(GL_PROJECTION);                                        // set model  GL_PROJECTION  
+	glLoadIdentity();                                                   // reset the projection matrix
+	gluPerspective(45, (float)width/(float)height, 0.1, 1000);           // reset  perspective projection 
+	glMatrixMode(GL_MODELVIEW);                                         // set model GL_MODELVIEW
+	glLoadIdentity();                                                   // reset the model-view matrix
 }
 
 int Init()
@@ -293,8 +291,8 @@ int Init()
 	glClearDepth(1.0);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
-	glShadeModel(GL_SMOOTH);//  启用阴影平滑
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);//  真正精细的透视修正
+	glShadeModel(GL_SMOOTH);//  start shade model 
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
 	if (!LoadTextureGL())  // 跳到LoadTextureGL()函数   
 	{   
 		return FALSE;      // 如果纹理加载错误则返回FALSE   

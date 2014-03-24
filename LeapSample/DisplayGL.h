@@ -6,21 +6,21 @@
 #include <minwinbase.h>
 
 #define GLUT_DISABLE_ATEXIT_HACK
-#include "GL/glaux.h" // GLaux 库的头文件
+#include "GL/glaux.h" 
 #include "GL/glut.h"
 #include "CPianoMelody.h"
-#define MAX_TEXTURE  3   // 定义最大的纹理数目
-#define MAX_KEY_NUM 13
+#define MAX_TEXTURE  3   //define Maximum texture number
+#define MAX_KEY_NUM 13   //define Maximum piano key number
 using namespace std;
-//start是手掌中心，end是指尖
+//start is the center of palm，end is Fingertip
 struct SStick
 {
-	float start_x;
-	float start_y;
-	float start_z;
-	float end_x;
-	float end_y;
-	float end_z;
+	float start_x;//palm X
+	float start_y;//[alm Y
+	float start_z;//palm Z
+	float end_x;//Fingertip X
+	float end_y;//Fingertip Y
+	float end_z;//Fingertip Z
 };
 extern CRITICAL_SECTION g_csPiano;
 extern CRITICAL_SECTION g_csStick;

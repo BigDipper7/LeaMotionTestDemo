@@ -17,7 +17,7 @@ bool	CPianoMelody::UpdateData(const Frame &frame)
 	FingerList fingerList = frame.fingers();
 	return true;
 }
-//截取发生的屏幕点击事件，进行演奏
+//get current clicking event from leap
 bool	CPianoMelody::OccurGesture(const KeyTapGesture &keyTap)
 {
 	Pointable pt = keyTap.pointable();
@@ -32,13 +32,13 @@ bool	CPianoMelody::OccurGesture(const KeyTapGesture &keyTap)
 	{
 		xPos = 210;
 	}
-	int musicNum = (pos.x + 210)/30;
+	int musicNum = (pos.x + 210)/30;//get the key num
 
 	SetKeyPress(musicNum);
 	
 	return false;
 }
-void CPianoMelody::PlayBackgroundMusic(char fileName[])
+void CPianoMelody::PlayBackgroundMusic(char fileName[])//play BGM
 {
 	m_musicPlayer.Play(fileName);
 }
@@ -50,7 +50,7 @@ bool CPianoMelody::LoadMusic(char fileName[])
 {
 	return m_musicPlayer.LoadMusic(fileName);
 }
-bool CPianoMelody::Play(int musicNum)
+bool CPianoMelody::Play(int musicNum)//process the original data 
 {
 	if((musicNum >= MAX_KEY_NUM) || (musicNum < 0))
 	{

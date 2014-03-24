@@ -6,39 +6,39 @@ GLuint			texture[3];
 static int		g_PressWhichKey = -1;
 vector<SStick>	g_StickVector;
 CPianoMelody	*g_pianoMelody;
-AUX_RGBImageRec *LoadImage(char *Filename)  // ¼ÓÔØÒ»¸öÍ¼Æ¬   
+AUX_RGBImageRec *LoadImage(char *Filename)  // loading a image   
 {   
-	FILE *File = NULL;                      // ÎÄ¼þ¾ä±ú   
-	if(!Filename)                          // È·±£ÎÄ¼þÃûÒÑ¾­Ìá¹©   
+	FILE *File = NULL;                      // set file handler   
+	if(!Filename)                          
 	{   
-		return NULL;                        // Èç¹ûÃ»ÓÐÔò·µ»ØNULL   
+		return NULL;                        
 	}   
-	File=fopen(Filename,"r");               // ¼ì²éÎÄ¼þÊÇ·ñ´æÔÚ   
+	File=fopen(Filename,"r");               // open file
 
-	if(File)                               // ÎÄ¼þ´æÔÚÂð£¿   
+	if(File)                               // weather the file exist?   
 	{   
-		fclose(File);                       // ¹Ø±ÕFileÎÄ¼þ¾ä±ú   
-		return auxDIBImageLoad(Filename);   // ÔØÈëÍ¼Æ¬²¢·µ»ØÆäÖ¸Õë   
+		fclose(File);                       // close file handler
+		return auxDIBImageLoad(Filename);   // return image
 	}   
-	return NULL;                            // Èç¹û¼ÓÔØ´íÎóÔò·µ»ØNULL   
+	return NULL;                                
 }   
-BOOL LoadTextureGL()                                            // ¼ÓÔØÍ¼Æ¬²¢×ª»»ÎªÎÆÀí(new)   
+BOOL LoadTextureGL()                                            // create texture  
 {   
-	BOOL State=FALSE;                                           // ×´Ì¬Ö¸Ê¾   
+	BOOL State=FALSE;                                           // statement label  
 
-	AUX_RGBImageRec *TextureImage[MAX_TEXTURE];                  // ÎªÎÆÀí¿ª±Ù´æ´¢¿Õ¼ä   
+	AUX_RGBImageRec *TextureImage[MAX_TEXTURE];                  // get space for texture
 
-	memset(TextureImage,0,sizeof(void *)*MAX_TEXTURE);           //  Çå³ýÍ¼Ïñ¼ÇÂ¼£¬È·±£ÆäÄÚÈÝÎª¿Õ²¢Ê¹Ö¸ÕëÖ¸ÏòNULL   
-	//¼ÓÔØÍ¼Æ¬²¢¼ì²éÊÇ·ñ³ö´í £¬Èç¹ûÍ¼Æ¬²»´æÔÚÔò·µ»Ø      
+	memset(TextureImage,0,sizeof(void *)*MAX_TEXTURE);           //  clear all temp data ,change it to->NULL   
+	//laoding source image ...-> return flase while it is not exist      
 	if ((TextureImage[0] = LoadImage("Resources/white.bmp"))   
 		&& (TextureImage[1] = LoadImage("Resources/black.bmp")) 
 		&& (TextureImage[2] = LoadImage("Resources/piano.bmp")))
 	{      
-		State = TRUE;                                           // ÉèÖÃ×´Ì¬±äÁ¿ÎªTRUE   
-		glGenTextures(MAX_TEXTURE, &texture[0]);                 // ·µ»ØÎ¨Ò»µÄÎÆÀíÃû×ÖÀ´±êÊ¶ÎÆÀí,±£´æÔÚtextureÖÐ   
+		State = TRUE;                                           // change label to -> TRUE   
+		glGenTextures(MAX_TEXTURE, &texture[0]);                 
 
-		// ÓÃÍ¼Æ¬Êý¾Ý²úÉúÎÆÀí   
-		for (int loop=0; loop<MAX_TEXTURE; loop++)                // Ñ­»·´¦ÀíMAX_TEXTUREÕÅÎÆÀí   
+		// generating texture
+		for (int loop=0; loop<MAX_TEXTURE; loop++)                // this circle is used to processing n texture
 		{   
 			glBindTexture(GL_TEXTURE_2D, texture[loop]);   
 			glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage[loop]->sizeX, TextureImage[loop]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage[loop]->data);   
@@ -50,50 +50,50 @@ BOOL LoadTextureGL()                                            // ¼ÓÔØÍ¼Æ¬²¢×ª»
 	{   
 		if (TextureImage[loop])                  
 		{   
-			if (TextureImage[loop]->data)        // Èç¹ûÎÆÀí´æÔÚ   
+			if (TextureImage[loop]->data)         
 			{   
-				free(TextureImage[loop]->data);  // ÊÍ·ÅÎÆÀí´æ´¢¿Õ¼ä   
+				free(TextureImage[loop]->data);  // free the used space
 			}   
 			free(TextureImage[loop]);            
 		}   
 	}   
-	return State;                                // ·µ»ØState   
+	return State;                                // return label   
 }   
-// »æÖÆÒ»¸ö´øÎÆÀíµÄ³¤·½Ìå   
+// draw a cube with texture
 void glDrawCube(GLfloat width, GLfloat height, GLfloat deep)   
 {   
 	glBegin(GL_QUADS);   
-	// Ç°Ãæ   
+	// front   
 	glNormal3f( 0.0f, 0.0f, 1.0f);   
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-width/2,-height/2, deep/2);   
 	glTexCoord2f(1.0f, 0.0f); glVertex3f( width/2,-height/2, deep/2);   
 	glTexCoord2f(1.0f, 1.0f); glVertex3f( width/2, height/2, deep/2);   
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-width/2, height/2, deep/2);   
-	// ºóÃæ   
+	// behind
 	glNormal3f( 0.0f, 0.0f,-1.0f);   
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(-width/2,-height/2,-deep/2);   
 	glTexCoord2f(1.0f, 1.0f); glVertex3f(-width/2, height/2,-deep/2);   
 	glTexCoord2f(0.0f, 1.0f); glVertex3f( width/2, height/2,-deep/2);   
 	glTexCoord2f(0.0f, 0.0f); glVertex3f( width/2,-height/2,-deep/2);   
-	// ¶¥Ãæ   
+	// top 
 	glNormal3f( 0.0f, 1.0f, 0.0f);   
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-width/2, height/2,-deep/2);   
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-width/2, height/2, deep/2);   
 	glTexCoord2f(1.0f, 0.0f); glVertex3f( width/2, height/2, deep/2);   
 	glTexCoord2f(1.0f, 1.0f); glVertex3f( width/2, height/2,-deep/2);   
-	// µ×Ãæ   
+	// bottom   
 	glNormal3f( 0.0f,-1.0f, 0.0f);   
 	glTexCoord2f(1.0f, 1.0f); glVertex3f(-width/2,-height/2,-deep/2);   
 	glTexCoord2f(0.0f, 1.0f); glVertex3f( width/2,-height/2,-deep/2);   
 	glTexCoord2f(0.0f, 0.0f); glVertex3f( width/2,-height/2, deep/2);   
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(-width/2,-height/2, deep/2);   
-	// ÓÒÃæ   
+	// right 
 	glNormal3f( 1.0f, 0.0f, 0.0f);   
 	glTexCoord2f(1.0f, 0.0f); glVertex3f( width/2,-height/2,-deep/2);   
 	glTexCoord2f(1.0f, 1.0f); glVertex3f( width/2, height/2,-deep/2);   
 	glTexCoord2f(0.0f, 1.0f); glVertex3f( width/2, height/2, deep/2);   
 	glTexCoord2f(0.0f, 0.0f); glVertex3f( width/2,-height/2, deep/2);   
-	// ×óÃæ   
+	// left  
 	glNormal3f(-1.0f, 0.0f, 0.0f);   
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-width/2,-height/2,-deep/2);   
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(-width/2,-height/2, deep/2);   
@@ -104,7 +104,7 @@ void glDrawCube(GLfloat width, GLfloat height, GLfloat deep)
 
 void DrawGLScene(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// Çå³ý³¡¾°ºÍÉî¶È»º´æ   
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// Çå³ý³¡¾°ºÍÉî¶È»º´æ   clear cache 
 	glLoadIdentity();                                   // ÖØÖÃµ±Ç°¾ØÕó   
 	// ÔÚ´Ë´¦Ìí¼Ó´úÂë½øÐÐ»æÖÆ:
 	glTranslatef(0.0f, 0.5f,-2.0f);

@@ -293,12 +293,12 @@ int Init()
 	glDepthFunc(GL_LEQUAL);
 	glShadeModel(GL_SMOOTH);//  start shade model 
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
-	if (!LoadTextureGL())  // 跳到LoadTextureGL()函数   
+	if (!LoadTextureGL())  // JMP LoadTextureGL()   
 	{   
-		return FALSE;      // 如果纹理加载错误则返回FALSE   
+		return FALSE;      // return FALSE when loading texture meet sth wrong    
 	}   
-	glEnable(GL_TEXTURE_2D);// 开启2D纹理映射   
-	//抗锯齿
+	glEnable(GL_TEXTURE_2D);// enable GL_TEXTURE_2D
+	//Anti-Aliasing
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_POINT_SMOOTH);
@@ -309,7 +309,7 @@ int Init()
 	glHint(GL_POLYGON_SMOOTH_HINT,GL_NICEST);
 	return 1;
 }
-void KeyBoardFunc(unsigned char key, int x, int y)
+void KeyBoardFunc(unsigned char key, int x, int y)// enable Clicking keyboard event ; size =13
 {
 //	printf("%x\n",key);
 	if(VK_ESCAPE == key)
@@ -374,7 +374,7 @@ void KeyBoardFunc(unsigned char key, int x, int y)
 	DrawGLScene();
 }
 
-bool SetKeyPress(int musicNum)
+bool SetKeyPress(int musicNum)// be safer,previous processing
 {
 	if((musicNum >= MAX_KEY_NUM) || (musicNum < 0))
 	{

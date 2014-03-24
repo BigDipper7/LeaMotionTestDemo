@@ -9,12 +9,12 @@
 using namespace std;
 deque<string>	m_openStrings;
 deque<string>	m_playStrings;
-deque<int>		m_vPlayDeque;//播放队列
+deque<int>		m_vPlayDeque;//playing deque
 CRITICAL_SECTION g_cs;
 DWORD WINAPI PlayMusicThread(LPVOID p)
 {
 	char ret[256]={0};
-	EnterCriticalSection(&g_cs);//不要使用临界区、关键代码段
+	EnterCriticalSection(&g_cs);
 	if(m_vPlayDeque.empty())
 	{
 		LeaveCriticalSection(&g_cs);
@@ -33,7 +33,7 @@ DWORD WINAPI PlayMusicThread(LPVOID p)
 CMusicPlayer::CMusicPlayer(void)
 {
 	m_sID = "CurrentName";
-	InitializeCriticalSection(&g_cs);/////初始化~!!!!!
+	InitializeCriticalSection(&g_cs);/////Initializing~!!!!!
 }
 CMusicPlayer::~CMusicPlayer()
 {
@@ -55,7 +55,7 @@ bool CMusicPlayer::LoadMusic(char fileName[])
 		string mciOpenStr = "open \"" + string(str) +"\" alias device_music"+strNum;
 		inStream.getline(str,256);
 		m_openStrings.push_back(mciOpenStr);
-		string mciPlayStr = string("play")+" device_music"+strNum+" notify";//notify不可以换成wait,会发生程序卡死
+		string mciPlayStr = string("play")+" device_music"+strNum+" notify";
 		m_playStrings.push_back(mciPlayStr);
 	}
 	cout<<"一共打开音乐个数 = "<<m_openStrings.size()<<"  m_nMusicNum= "<<m_nMusicNum<<endl;
@@ -80,16 +80,15 @@ void CMusicPlayer::Play(int musicName)
 	cout<<"CMusicPlayer::Play = "<<musicName<<endl;
 	m_vPlayDeque.push_back(musicName);
 	LeaveCriticalSection(&g_cs);
-	//参数不能为暂时变量，因为不等返回变量就消失了，所以读取不到数据
-	CreateThread(NULL,0,PlayMusicThread,NULL,0,NULL);//参数还是没有传过去啊！！！！9-9
+	//not using a temperary deta
+	CreateThread(NULL,0,PlayMusicThread,NULL,0,NULL);//
 }
 void CMusicPlayer::Play(char fileName[])
 {
-	//之所以要加 \"因为音乐文件名中可能包含空格，只有加上才能播放
 	string mciOpenStr = "open \"" + string(fileName) +"\" alias "+ m_sID;
 	
-	string mciPlayStr = string("play ")+m_sID+" repeat";//wait的的话会阻塞
-	//repeat---单曲循环
+	string mciPlayStr = string("play ")+m_sID+" repeat";//wait will block it
+	//repeating---one song
 	//char ret[256];
 	cout<<mciOpenStr<<endl;cout<<mciPlayStr<<endl;
 	mciSendString(mciOpenStr.c_str(),NULL,0,NULL);

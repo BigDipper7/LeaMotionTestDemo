@@ -137,7 +137,7 @@ int main(int argc, char *argv[]){
 	g_pianoMelody->LoadMusic("piano-files.txt");//open the music from the file
 
 
-	//这里添加好几首背景音乐，并加入随机。同时，有空将txt文件删掉，改成直接遍历文件夹的内容
+	//opening the BGM
 	g_bStartBackgroundMusic = false;
 	if(g_bStartBackgroundMusic)
 	{
@@ -145,7 +145,7 @@ int main(int argc, char *argv[]){
 		int randNum = rand()%3;
 		if(0 == randNum)
 		{
-			g_pianoMelody->PlayBackgroundMusic("OpeningMusic\\星空.mp3");//支持名字含有空格的情况
+			g_pianoMelody->PlayBackgroundMusic("OpeningMusic\\星空.mp3");//supporting zh-CN
 		}
 		else if(1 == randNum)
 		{
@@ -174,7 +174,7 @@ int main(int argc, char *argv[]){
 	
 	//std::cout << "Press Enter to quit..." << std::endl;
 	//std::cin.get();
-	// 移除监听者
+	// remove listener
 	controller.removeListener(listener);
 	return 0;
 }
